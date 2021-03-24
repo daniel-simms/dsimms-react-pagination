@@ -1,7 +1,7 @@
 {
   "name": "dsimms-react-pagination",
   "description": "Paginates an array of data then renders it in using a component provided via the render prop.",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "main": "./lib/Pagination.js",
   "license": "MIT",
   "scripts": {
