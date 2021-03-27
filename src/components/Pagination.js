@@ -16,8 +16,8 @@ export default function Pagination(props) {
   } = useContext(PaginationContext)
 
   useEffect(() => {
-    if(!currentPage) setCurrentPage(props.currentPage)
-    if(!pageLinksAmount) setPageLinksAmount(props.pageLinksAmount)
+    if(!currentPage) setCurrentPage(props.currentPage || 1)
+    if(!pageLinksAmount) setPageLinksAmount(props.pageLinksAmount || 5)
   }, [])
 
   // Paginate Filtered Data
