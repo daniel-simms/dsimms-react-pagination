@@ -1,103 +1,109 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Pagination as Pagi } from "react-bootstrap";
-import { paginateData, scrollTop } from "../functions";
+import React, { useState, useContext, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { Pagination as Pagi } from 'react-bootstrap'
+import { paginateData, scrollTop } from '../functions'
 
 import PaginationContext from '../context/PaginationContext'
 
-export default function Pagination(props) {
-
+export default function Pagination (props) {
   const {
     currentPage,
     setCurrentPage,
     pageLinksAmount,
     setPageLinksAmount,
     pageLinksRange,
-    setPageLinksRange,
+    setPageLinksRange
   } = useContext(PaginationContext)
 
   useEffect(() => {
-    if(!currentPage) setCurrentPage(props.currentPage || 1)
-    if(!pageLinksAmount) setPageLinksAmount(props.pageLinksAmount || 5)
+    if (!currentPage) setCurrentPage(props.currentPage || 1)
+    if (!pageLinksAmount) setPageLinksAmount(props.pageLinksAmount || 5)
   }, [])
 
   // Paginate Filtered Data
-  const [itemsPerPage] = useState(props.itemsPerPage);
-  const totalItems = props.data.length;
-  const totalPageCount = Math.ceil(totalItems / itemsPerPage);
-  const pageLinksModifier = pageLinksAmount - 2;
+  const [itemsPerPage] = useState(props.itemsPerPage)
+  const totalItems = props.data.length
+  const totalPageCount = Math.ceil(totalItems / itemsPerPage)
+  const pageLinksModifier = pageLinksAmount - 2
 
   const toNextPage = () => {
     // Set currentPage
-    setCurrentPage((prev) => ++prev);
+    setCurrentPage((prev) => ++prev)
     // Set pageLinksRange
-    const nextPage = currentPage + 1;
-    const lastPageLink = pageLinksRange[pageLinksRange.length - 1];
-    if (nextPage === lastPageLink && nextPage < totalPageCount)
-      setPageLinksRange((prev) => prev.map((page) => page + pageLinksModifier));
-    scrollTop();
-  };
+    const nextPage = currentPage + 1
+    const lastPageLink = pageLinksRange[pageLinksRange.length - 1]
+    if (nextPage === lastPageLink && nextPage < totalPageCount) {
+      setPageLinksRange((prev) => prev.map((page) => page + pageLinksModifier))
+    }
+    scrollTop()
+  }
 
   const toPrevPage = () => {
     // Set currentPage
-    setCurrentPage((prev) => --prev);
+    setCurrentPage((prev) => --prev)
     // Set pageLinksRange
-    const prevPage = currentPage - 1;
-    const firstPageLink = pageLinksRange[0];
-    if (prevPage === firstPageLink && prevPage > 1)
-      setPageLinksRange((prev) => prev.map((page) => page - pageLinksModifier));
-    scrollTop();
-  };
+    const prevPage = currentPage - 1
+    const firstPageLink = pageLinksRange[0]
+    if (prevPage === firstPageLink && prevPage > 1) {
+      setPageLinksRange((prev) => prev.map((page) => page - pageLinksModifier))
+    }
+    scrollTop()
+  }
 
   const toSpecificPage = (page) => {
     // Set currentPage
-    setCurrentPage(page);
+    setCurrentPage(page)
     // Set pageLinksRange
-    const firstLink = pageLinksRange[0] === page;
-    const lastLink = pageLinksRange[pageLinksRange.length - 1] === page;
-    const linktoFirstPage = page === 1;
-    const linktoLastPage = page === totalPageCount;
+    const firstLink = pageLinksRange[0] === page
+    const lastLink = pageLinksRange[pageLinksRange.length - 1] === page
+    const linktoFirstPage = page === 1
+    const linktoLastPage = page === totalPageCount
     if (firstLink && !linktoFirstPage) {
       setPageLinksRange((prev) =>
         prev.map((state) => state - pageLinksModifier)
-      );
+      )
     }
     if (lastLink && !linktoLastPage) {
       setPageLinksRange((prev) =>
         prev.map((state) => state + pageLinksModifier)
-      );
+      )
     }
-    scrollTop();
-  };
+    scrollTop()
+  }
 
-  const paginatedData = paginateData(
-    props.data,
-    itemsPerPage,
-    currentPage
-  );
+  const paginatedData = paginateData(props.data, itemsPerPage, currentPage)
 
   return (
-    <React.Fragment>
+    <>
       {props.render(paginatedData)}
       <Pagi className="d-flex justify-content-center w-100">
         {currentPage > 1 && <Pagi.Prev onClick={() => toPrevPage()} />}
         {pageLinksRange.map((page) => {
-          const allPageLinksRendered = page > totalPageCount;
+          const allPageLinksRendered = page > totalPageCount
           return (
             !allPageLinksRendered && (
               <Pagi.Item
-                key={"pageLink-" + page}
+                key={`pageLink-${page}`}
                 active={page === currentPage}
                 onClick={() => toSpecificPage(page)}
               >
                 {page}
               </Pagi.Item>
             )
-          );
+          )
         })}
         {currentPage < totalPageCount && (
           <Pagi.Next onClick={() => toNextPage()} />
         )}
       </Pagi>
-    </React.Fragment>
-  );
+    </>
+  )
+}
+
+Pagination.propTypes = {
+  currentPage: PropTypes.number,
+  pageLinksAmount: PropTypes.number,
+  itemsPerPage: PropTypes.number.isRequired,
+  data: PropTypes.array.isRequired,
+  render: PropTypes.func.isRequired
 }

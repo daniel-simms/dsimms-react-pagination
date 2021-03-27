@@ -1,7 +1,7 @@
-import Pagination from "./components/Pagination";
+import Pagination from './components/Pagination'
 import PaginationContext, {
-  PaginationProvider,
-} from "./context/PaginationContext";
+  PaginationProvider
+} from './context/PaginationContext'
 
-export default Pagination;
-export { PaginationContext, PaginationProvider };
+export default Pagination
+export { PaginationContext, PaginationProvider }

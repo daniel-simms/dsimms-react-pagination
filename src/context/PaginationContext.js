@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 
-const PaginationContext = React.createContext();
+const PaginationContext = React.createContext()
 
 const PaginationProvider = ({ children }) => {
-  const [currentPage, setCurrentPage] = useState();
-  const [pageLinksAmount, setPageLinksAmount] = useState();
-  const [pageLinksRange, setPageLinksRange] = useState([]);
+  const [currentPage, setCurrentPage] = useState()
+  const [pageLinksAmount, setPageLinksAmount] = useState()
+  const [pageLinksRange, setPageLinksRange] = useState([])
 
   useEffect(() => {
-    setPageLinksRange([...Array(pageLinksAmount).keys()].map((x) => ++x));
-  }, [pageLinksAmount]);
+    setPageLinksRange([...Array(pageLinksAmount).keys()].map((x) => ++x))
+  }, [pageLinksAmount])
 
   return (
     <PaginationContext.Provider
@@ -19,14 +20,18 @@ const PaginationProvider = ({ children }) => {
         pageLinksAmount,
         setPageLinksAmount,
         pageLinksRange,
-        setPageLinksRange,
+        setPageLinksRange
       }}
     >
       {children}
     </PaginationContext.Provider>
-  );
-};
+  )
+}
 
-export default PaginationContext;
+export default PaginationContext
 
-export { PaginationProvider };
+export { PaginationProvider }
+
+PaginationProvider.propTypes = {
+  children: PropTypes.element.isRequired
+}
