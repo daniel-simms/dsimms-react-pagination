@@ -3,5 +3,4 @@ import PaginationContext, {
   PaginationProvider
 } from './context/PaginationContext'
 
-export default Pagination
-export { PaginationContext, PaginationProvider }
+export { Pagination, PaginationContext, PaginationProvider }
