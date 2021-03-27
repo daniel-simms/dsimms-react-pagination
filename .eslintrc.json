@@ -4,6 +4,7 @@
     "es2021": true
   },
   "extends": ["standard", "plugin:react/recommended"],
+  "ignorePatterns": ["mode_modules", "lib", "examples"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
